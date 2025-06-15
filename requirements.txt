@@ -1,7 +1,13 @@
-opencv-python>=4.8.0
-gradio>=4.0.0
-numpy>=1.24.0
-Pillow>=10.0.0
-ffmpeg-python>=0.2.0
-torch>=2.0.0
-torchvision>=0.15.0
+
+# IMPORTANT:
+# This file lists the basic Python packages. The most critical libraries,
+# PyTorch and ONNXRuntime, MUST be installed manually BEFORE you run
+# 'pip install -r requirements.txt'.
+# Please follow the detailed instructions in the README.md file.
+
+gradio
+opencv-python
+Pillow
+ffmpeg-python
+face2face-lib>=1.0.1
+numpy

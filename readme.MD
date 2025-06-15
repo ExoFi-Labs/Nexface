@@ -1,138 +1,118 @@
-# 👁️ NexFace
+# 👁️ NexFace: High-Quality Face Swapper
 
-A powerful, local, and user-friendly desktop application for high-quality batch face swapping. Built with Python and Gradio, this tool provides a convenient interface for the Face2Face library, allowing you to swap a single source face onto hundreds of target images or videos with just a few clicks.
+A user-friendly desktop application for swapping faces in images and videos, built with Python and Gradio. This tool supports single or batch processing for both images and videos, with built-in options for enhancing the quality of the final output.
 
- 
-*(Note: You should replace this with a real screenshot or GIF of your application in action.)*
+  <!-- You should replace this with an actual screenshot of your app -->
 
-## ✨ Key Features
+## Features
 
--   **Batch Processing**: Swap a face onto an entire folder of target images or videos in one go.
--   **Video Processing**: Support for both single video and batch video processing with audio preservation.
--   **High-Quality Mode**: An optional mode that intelligently preprocesses images, upscales faces using Lanczos resampling, and applies sharpening and contrast enhancements for a more professional result.
--   **Face Enhancement**: Supports multiple face enhancement models including GFPGAN and GPEN for superior quality results.
--   **User-Friendly Interface**: A clean and simple UI powered by Gradio with three main tabs:
-  - Image Processing
-  - Video Processing
-  - Batch Video Processing
--   **Convenient Output Management**: Automatically saves all results into an `output` folder and provides a single `.zip` file for easy download.
--   **Local & Private**: Runs entirely on your own machine. Your images are never uploaded to any cloud service.
--   **Cross-Platform**: Works on Windows, macOS, and Linux. Includes a handy button to open the output folder in your native file explorer.
--   **Progress Tracking**: Real-time progress updates with estimated time remaining for both image and video processing.
--   **Memory Management**: Automatic GPU memory cleanup and garbage collection to prevent out-of-memory errors.
+-   **Image-to-Image Swapping**: Swap a source face onto one or multiple target images.
+-   **Video-to-Video Swapping**: Swap a source face into every frame of a target video.
+-   **Batch Processing**: Process multiple target images or videos in a single run.
+-   **Quality Enhancement**: Optional modes to improve the realism and detail of swapped faces.
+-   **Audio Preservation**: Automatically retains the original audio track in processed videos.
+-   **User-Friendly Interface**: Simple, tab-based UI for easy operation.
 
+## ⚠️ Prerequisites
 
-## ⚙️ How It Works
+Before you begin, you **must** have the following software installed on your system.
 
-This application is built on top of the Face2Face library, which uses Insightface's powerful face detection and swapping technology. When "High Quality Mode" is enabled, the script performs several additional steps:
+1.  **Python**: Version 3.9 or newer. You can download it from [python.org](https://www.python.org/).
+2.  **Git**: Required to clone this repository. You can get it from [git-scm.com](https://git-scm.com/).
+3.  **FFmpeg**: **(CRITICAL FOR VIDEO)** This is required to process videos and add audio to the output.
+    -   **Windows**: Download a build from [gyan.dev](https://www.gyan.dev/ffmpeg/builds/) (the `essentials` build is fine). Unzip it, and you **must** add the `bin` folder to your system's PATH environment variable.
+    -   **macOS**: Use Homebrew: `brew install ffmpeg`
+    -   **Linux (Debian/Ubuntu)**: `sudo apt update && sudo apt install ffmpeg`
+4.  **(Optional but Recommended) NVIDIA GPU with CUDA**: For significant processing speed-up, an NVIDIA GPU is highly recommended.
+    -   Ensure you have the latest [NVIDIA drivers](https://www.nvidia.com/Download/index.aspx) installed.
+    -   Install the [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive). The installation guide below assumes **CUDA 12.1**, but you should use the command that matches your installed CUDA version.
 
-1.  **Preprocessing**: Source and target images are upscaled to a minimum size (1024px) using cubic interpolation to provide more detail for the swap.
-2.  **Swapping**: The Face2Face library performs the core face swapping using Insightface's models.
-3.  **Post-processing**: The swapped face region is enhanced using a combination of high-quality upscaling (Pillow's `LANCZOS` filter), sharpening, and a subtle contrast boost.
-4.  **Face Enhancement**: Optional face enhancement using models like GFPGAN or GPEN can be applied for superior quality results.
+## ⚙️ Installation Instructions
 
-![Image](https://github.com/user-attachments/assets/ba87ae3f-84ba-4ec0-8490-da22f9f1efdf)
+Follow these steps carefully in your terminal or command prompt. **Do not skip steps.**
 
+### Step 1: Clone the Repository
 
+Clone this project to your local machine.
 
-![Image](https://github.com/user-attachments/assets/47958ccb-a43f-4b37-b69c-3e292539a258)
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
 
-![Image](https://github.com/user-attachments/assets/0600c053-f2bd-4187-b38c-a059b5a2c5e1)
+### Step 2: Create and Activate a Virtual Environment
 
-## 📦 Requirements
+This is a crucial step to avoid conflicts with other Python projects.
 
--   Python 3.7 or higher
--   Minimum 5GB of RAM
--   Recommended: GPU with at least 8GB of VRAM for fast inference (runs on CPU but will be slower)
--   For video support: FFmpeg installation
--   The Python libraries listed in `requirements.txt`.
+```bash
+# Create the virtual environment
+python -m venv venv
 
-## 🚀 Installation & Setup
+# Activate it
+# On Windows:
+.\venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/ExoFi-Labs/Nexface.git
-    cd nexface
-    ```
+You will know it's active when you see `(venv)` at the beginning of your command prompt line.
 
-2.  **Create a virtual environment (recommended):**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
+### Step 3: Install Core ML Libraries (PyTorch & ONNXRuntime)
 
-3.  **Install the required libraries:**
-    ```bash
-    # For basic face swapping functionality
-    pip install socaity-face2face
-    
-    # For full functionality including web service
-    pip install socaity-face2face[full]
-    
-    # Install additional project requirements
-    pip install -r requirements.txt
-    ```
+This is the most common point of failure. **Install these manually** based on your hardware.
 
-## ▶️ How to Run
+**A) For NVIDIA GPU Users (Highly Recommended):**
 
-1.  Navigate to the project directory in your terminal.
-2.  Run the application script:
-    ```bash
-    python app.py 
-    ```
-    
-3.  The script will start a local web server and print a URL (usually `http://127.0.0.1:7860`). Open this URL in your web browser to use the application.
+Run the following command. This example is for CUDA 12.1. Visit the [PyTorch website](https://pytorch.org/get-started/locally/) to get the correct command for your specific CUDA version if it's different.
 
-## 📖 How to Use
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install onnxruntime-gpu
+```
 
-### Image Processing
-1. **Upload Source Face**: Drag and drop an image containing the face you want to use into the "Source Face" box.
-2. **Upload Target Images**: Drag and drop one or more images you want to swap the face onto into the "Target Images" box.
-3. **Configure Options**:
-    - Check **✨ Enhance Output Faces** for an extra layer of clarity.
-    - Check **🔍 High Quality Mode** for the best possible results (this will be slower).
-    - Adjust the **Face Upscale Factor** if using High Quality Mode.
-4. **Start Processing**: Click the **🔁 Start Processing** button.
-5. **View Results**:
-    - Previews of the swapped images will appear in the "Swapped Results" gallery.
-    - Once the batch is complete, a link to download a `.zip` file of all results will appear.
-    - Click the **📂 Open Output Directory** button to directly access the saved image files on your computer.
+**B) For CPU-Only Users:**
 
-### Video Processing
-1. **Upload Source Face**: Drag and drop an image containing the face you want to use.
-2. **Upload Target Video**: Select a video file you want to process.
-3. **Configure Options**: Same as image processing.
-4. **Start Processing**: Click the **🔁 Start Video Processing** button.
-5. **View Results**: The processed video will appear in the output section with audio preserved.
+If you do not have an NVIDIA GPU, the application will be much slower, but it will work.
 
-### Batch Video Processing
-1. **Upload Source Face**: Drag and drop an image containing the face you want to use.
-2. **Upload Target Videos**: Select multiple video files to process.
-3. **Configure Options**: Same as image processing.
-4. **Start Processing**: Click the **🔁 Start Batch Processing** button.
-5. **View Results**: A `.zip` file containing all processed videos will be available for download.
+```bash
+pip install torch torchvision torchaudio
+pip install onnxruntime
+```
 
-## ⚠️ Known Limitations
+### Step 4: Install Remaining Python Packages
 
-- Processing large videos may require significant GPU memory. The application includes automatic memory management, but very large videos might still cause issues on systems with limited VRAM.
-- Video processing speed depends on your hardware. GPU acceleration is recommended for faster processing.
-- The application requires FFmpeg for video processing with audio. If FFmpeg is not installed, videos will be processed without audio.
+Now that the core libraries are installed, you can install the rest from the `requirements.txt` file.
 
-## ⚠️ Ethical Disclaimer
+```bash
+pip install -r requirements.txt
+```
 
-This tool is intended for creative, educational, and ethical purposes only. The creation of non-consensual content, deepfakes, or any material that could be used to mislead, harass, or defame individuals is strictly prohibited. By using this software, you agree to use it responsibly and in accordance with all applicable laws. The developers of this tool are not responsible for any misuse.
+The installation is now complete!
 
-## 🙏 Acknowledgments
+## ▶️ Running the Application
 
-This project is built on top of several amazing open-source projects:
+With your virtual environment still active, run the following command:
 
-- [Insightface](https://github.com/deepinsight/insightface) - For the core face detection and swapping technology
-- [ROOP](https://github.com/s0md3v/roop) - For inspiration and parts of the face swapping implementation
-- [GFPGAN](https://github.com/TencentARC/GFPGAN) - For face restoration capabilities
-- [GPEN](https://github.com/yangxy/GPEN) - For additional face enhancement options
+```bash
+python app.py
+```
 
-A special thanks to all the contributors of these projects for making this technology accessible to the community.
+This will start the Gradio web server. A local URL (like `http://127.0.0.1:7860`) will be displayed in your terminal. Open this URL in your web browser to use the application.
 
-## 📄 License
+## 💡 Usage Guide
 
-This project is open-source and available under the [MIT License](LICENSE).
+1.  **Select a Tab**: Choose between `Image-to-Image`, `Video-to-Video`, or `Batch Video Processing`.
+2.  **Upload Source Face**: In the left panel, upload a clear, front-facing image of the face you want to use.
+3.  **Upload Target(s)**: In the right panel, upload the image(s) or video(s) you want to swap the face onto.
+4.  **Set Options**:
+    -   `Enhance Output Faces`: Recommended for a higher quality result.
+    -   `High Quality Mode`: Slower, but pre-processes inputs for better results.
+5.  **Start Processing**: Click the "Start Processing" button.
+6.  **View & Download**: Results will appear in the gallery or video player. A `.zip` file of all results (for batch jobs) or the final video can be downloaded. You can also click "Open Output Directory" to directly access all saved files.
+
+## Troubleshooting
+
+-   **`ModuleNotFoundError: No module named 'face2face'` or `'torch'`**: You either skipped a step or the installation failed. Deactivate and delete the `venv` folder, then start the installation guide from Step 2.
+-   **`ffmpeg: command not found` or Video Output is Silent**: This means FFmpeg is not installed or not in your system's PATH. Go back to the **Prerequisites** section and ensure FFmpeg is installed correctly.
+-   **CUDA Errors (e.g., `CUDA out of memory`)**: Your GPU may not have enough VRAM. Try disabling "High Quality Mode", reducing the "Face Upscale Factor", or processing fewer files at once.
+-   **Application is Very Slow**: You are likely using the CPU version. GPU acceleration is essential for fast processing. Ensure you followed the GPU installation steps and that your system recognizes your NVIDIA GPU.
