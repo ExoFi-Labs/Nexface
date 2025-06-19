@@ -18,12 +18,11 @@ A user-friendly desktop application for swapping faces in images and videos, bui
 Before you begin, you **must** have the following software installed on your system.
 
 1.  **Python**: Version 3.9 or newer. You can download it from [python.org](https://www.python.org/).
-2.  **Git**: Required to clone this repository. You can get it from [git-scm.com](https://git-scm.com/).
-3.  **FFmpeg**: **(CRITICAL FOR VIDEO)** This is required to process videos and add audio to the output.
+2.  **FFmpeg**: **(CRITICAL FOR VIDEO)** This is required to process videos and add audio to the output.
     -   **Windows**: Download a build from [gyan.dev](https://www.gyan.dev/ffmpeg/builds/) (the `essentials` build is fine). Unzip it, and you **must** add the `bin` folder to your system's PATH environment variable.
     -   **macOS**: Use Homebrew: `brew install ffmpeg`
     -   **Linux (Debian/Ubuntu)**: `sudo apt update && sudo apt install ffmpeg`
-4.  **(Optional but Recommended) NVIDIA GPU with CUDA**: For significant processing speed-up, an NVIDIA GPU is highly recommended.
+3.  **(Optional but Recommended) NVIDIA GPU with CUDA**: For significant processing speed-up, an NVIDIA GPU is highly recommended.
     -   Ensure you have the latest [NVIDIA drivers](https://www.nvidia.com/Download/index.aspx) installed.
     -   Install the [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive). The installation guide below assumes **CUDA 12.1**, but you should use the command that matches your installed CUDA version.
 
