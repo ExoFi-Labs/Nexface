@@ -35,8 +35,8 @@ Follow these steps carefully in your terminal or command prompt. **Do not skip s
 Clone this project to your local machine.
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/ExoFi-Labs/Nexface.git
+cd nexface
 ```
 
 ### Step 2: Create and Activate a Virtual Environment
